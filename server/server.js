@@ -16,9 +16,17 @@ app.get('/usuario', function (req, res) {
 
 app.post('/usuario', function (req, res) {
     let body = req.body;
-    res.json({
-        usuario: body
-    });
+    
+    if(body.nombre === undefined){
+        res.status(400).json({
+            ok: false,
+            mensaje: 'Se requiere el nombre del usuario.'
+        });
+    } else {
+        res.json({
+            usuario: body
+        });
+    } 
 });
 
 //:parametro <- valor que se envia por medio de la URL
