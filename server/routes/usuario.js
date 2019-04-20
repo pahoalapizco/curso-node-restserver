@@ -1,9 +1,9 @@
 
 const express = require('express'); //Creamos la variable que tendra todos los elementos de express
 const app = express(); // Inicializamos express dentro de la constante app
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt'); // libreria para encriptar 
+const _ = require('underscore'); // libreria con propiedades para mejorar el desarrollo en js
 const Usuario = require('../models/usuario');
-const _ = require('underscore')
 
 const {
     PAGINA_INICIO_DEFAULT,
