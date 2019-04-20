@@ -16,7 +16,7 @@ app.get('/usuario', (req, res) => {
     let limite = Number(req.query.limite) || MAX_PAGINA_DEFAULT
 
     // find(Objeto con las condiciones que debe cumplir el resultado, string con los campos a retornar)
-    Usuario.find({}, 'nombre email role google estado img')
+    Usuario.find({ estado: true }, 'nombre email role google estado img')
         .skip(desde)
         .limit(limite)
         .exec((err, usuarios) => {
@@ -26,7 +26,7 @@ app.get('/usuario', (req, res) => {
                     err
                 });
             }
-            Usuario.count({}, (err, total) => {
+            Usuario.count({ estado: true }, (err, total) => {
                 res.json({
                     ok: true,
                     total,
@@ -80,13 +80,11 @@ app.put('/usuario/:id', (req, res) => {
             usuario: usuarioDB
         });
     });
-
-   
 });
 
 app.delete('/usuario/:id', (req, res) => {
     let id = req.params.id
-    Usuario.findByIdAndRemove(id,  (err, usuarioEliminado) => {
+    Usuario.findByIdAndUpdate(id, {estado: false}, (err, usuarioEliminado) => {
         if(err){
             return res.status(400).json({
                 ok: false,
@@ -105,10 +103,7 @@ app.delete('/usuario/:id', (req, res) => {
             ok: true,
             usuarioEliminado
         })
-
     })
-    
-
 });
 
 module.exports = app;
