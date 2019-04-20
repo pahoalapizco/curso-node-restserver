@@ -1,7 +1,8 @@
 
 const express = require('express'); //Creamos la variable que tendra todos los elementos de express
 const app = express(); // Inicializamos express dentro de la constante app
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt'); // libreria para encriptar 
+const _ = require('underscore'); // libreria con propiedades para mejorar el desarrollo en js
 const Usuario = require('../models/usuario');
 
 app.get('/usuario', (req, res) => {
@@ -36,10 +37,11 @@ app.post('/usuario', (req, res) => {
 //:parametro <- valor que se envia por medio de la URL
 app.put('/usuario/:id', (req, res) => {
     let id = req.params.id;
-    let body = req.body;
+    let body =   _.pick(req.body, ['nombre', 'email', 'img', 'role', 'estado']);
+
 
     // Busca el registro y lo actualiza, filtrado por el id unico de cada archivo.
-    Usuario.findByIdAndUpdate(id, body, {new: true},(err, usuarioDB) => {
+    Usuario.findByIdAndUpdate(id, body, {new: true, runValidators: true},(err, usuarioDB) => {
         if(err){
             return res.status(400).json({
                 ok: false,
