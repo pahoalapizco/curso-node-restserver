@@ -40,7 +40,7 @@ let usuarioSchema = new Schema({
     }
 });
 
-usuarioSchema.methods.toJSON = function (){
+usuarioSchema.methods.toJSON = function () {
     let user = this;
     let userObject = user.toObject();
     delete userObject.pass;
