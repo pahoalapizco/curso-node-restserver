@@ -16,9 +16,11 @@ app.use(bodyParser.json());
 app.use(require('./routes/usuario'));
 
 
-mongoose.connect('mongodb://localhost:27017/cafe', (err, res) => {
-    if(err) throw err; // Regresa un error si no se pudo conectar a la BD
-
-    console.log('Base de datos conectada...');
-});
+mongoose.connect(process.env.DB,
+    { useNewUrlParser: true, useCreateIndex: true },
+    (err, res) => {
+        if(err) throw err; // Regresa un error si no se pudo conectar a la BD
+        
+        console.log('Base de datos conectada...');
+    });
 app.listen(process.env.PORT, () => console.log(`Aplicación escuchando el puerto ${process.env.PORT}`));
