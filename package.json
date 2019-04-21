@@ -17,5 +17,8 @@
     "mongoose": "^5.5.2",
     "mongoose-unique-validator": "^2.0.3",
     "underscore": "^1.9.1"
+  },
+  "engines": {
+    "node": "8.11.1"
   }
 }
