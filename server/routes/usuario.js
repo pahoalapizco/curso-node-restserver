@@ -4,13 +4,13 @@ const app = express(); // Inicializamos express dentro de la constante app
 const bcrypt = require('bcrypt'); // libreria para encriptar 
 const _ = require('underscore'); // libreria con propiedades para mejorar el desarrollo en js
 const Usuario = require('../models/usuario');
-
+const { verificaToken } = require('../middelwares/autenticacion')
 const {
     PAGINA_INICIO_DEFAULT,
     MAX_PAGINA_DEFAULT
 } = require('../config/globals')
 
-app.get('/usuario', (req, res) => {
+app.get('/usuario', verificaToken, (req, res) => {
     // req.query = son los parametros opcionales recibidos de la url
     let desde  = Number(req.query.desde) || PAGINA_INICIO_DEFAULT
     let limite = Number(req.query.limite) || MAX_PAGINA_DEFAULT
