@@ -2,7 +2,8 @@
 const express = require('express') //Creamos la variable que tendra todos los elementos de express
 const app = express() // Inicializamos express dentro de la constante app
 const bcrypt = require('bcrypt') // libreria para encriptar 
-const Usuario = require('../models/usuario');
+const jwt = require('jsonwebtoken')
+const Usuario = require('../models/usuario')
 const _ = require('underscore')
 
 app.post('/login', (req, res) => {
@@ -26,11 +27,19 @@ app.post('/login', (req, res) => {
           message: 'Usuario o contraseña incorrectos.'
         }
       })
-    }    
+    } 
+    let usuarioFiltrado =  _.pick( usuarioBD, ['nombre', 'email', 'img', 'role', 'estado'])
+
+    let token = jwt.sign({
+        usuario: usuarioFiltrado
+      }, 
+      process.env.SEED, 
+      { expiresIn: process.env.CADUCIDAD_TOKEN }
+    )   
     res.json({
       ok: true,
-      usuario: _.pick( usuarioBD, ['nombre', 'email', 'img', 'role', 'estado']),
-      token: '123'
+      usuario: usuarioFiltrado,
+      token
     })
   })
   
