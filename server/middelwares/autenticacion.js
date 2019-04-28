@@ -3,14 +3,16 @@ const jwt = require('jsonwebtoken')
 
 // Verificar Token
 // next = continua con la ejecución del programa
-let verificaToken = (req, res, next) => {
+const verificaToken = (req, res, next) => {
   let token = req.get('token')
 
   jwt.verify(token, process.env.SEED, (err, decoded) => {
     if(err){
       return res.status(401).json({
         ok: false,
-        err
+        err: {
+          message: 'Token no válido'
+        }
       })
     }
     req.usuario = decoded.usuario
@@ -18,6 +20,24 @@ let verificaToken = (req, res, next) => {
   })
 }
 
+// Verifica rol de usuario.
+const verificaAdminRol = (req, res, next) => {
+  let rolUsuario = req.usuario.role
+  
+  if (rolUsuario === 'ADMIN_ROLE'){
+    next()
+    return
+
+  } else {
+    return res.status(401).json({
+      ok: false,
+      err: {
+        message: 'Usuario no cuenta con los persisos suficientes.'
+      }
+    })
+  }
+}
 module.exports = {
-  verificaToken
+  verificaToken,
+  verificaAdminRol
 }

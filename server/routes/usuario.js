@@ -4,7 +4,7 @@ const app = express(); // Inicializamos express dentro de la constante app
 const bcrypt = require('bcrypt'); // libreria para encriptar 
 const _ = require('underscore'); // libreria con propiedades para mejorar el desarrollo en js
 const Usuario = require('../models/usuario');
-const { verificaToken } = require('../middelwares/autenticacion')
+const { verificaToken, verificaAdminRol } = require('../middelwares/autenticacion')
 const {
     PAGINA_INICIO_DEFAULT,
     MAX_PAGINA_DEFAULT
@@ -36,9 +36,9 @@ app.get('/usuario', verificaToken, (req, res) => {
         })
   });
   
-app.post('/usuario', (req, res) => {
+app.post('/usuario', [verificaToken, verificaAdminRol], (req, res) => {
     let body = req.body;
-
+    
     let usuario = new Usuario({
         nombre: body.nombre,
         email: body.email,
@@ -61,7 +61,7 @@ app.post('/usuario', (req, res) => {
 });
 
 //:parametro <- valor que se envia por medio de la URL
-app.put('/usuario/:id', (req, res) => {
+app.put('/usuario/:id', [verificaToken, verificaAdminRol], (req, res) => {
     let id = req.params.id;
     //_.pick(obj con parametros obtenidos del body, arreglo de parametros que utilizaremos)
     // La función _.pick() nos regresa una copia del objeto original pero solo con los parametros qspecificados en el arreglo (2do parametro)
@@ -82,7 +82,7 @@ app.put('/usuario/:id', (req, res) => {
     });
 });
 
-app.delete('/usuario/:id', (req, res) => {
+app.delete('/usuario/:id', [verificaToken, verificaAdminRol], (req, res) => {
     let id = req.params.id
     Usuario.findByIdAndUpdate(id, {estado: false}, (err, usuarioEliminado) => {
         if(err){
