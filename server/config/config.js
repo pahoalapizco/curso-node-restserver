@@ -2,7 +2,7 @@
 // PUERTO
 // =======================
 
-process.env.PORT = process.env.PORT || 3000
+process.env.PORT = process.env.PORT || 9000
 
 // =======================
 // ENTORNO
@@ -23,8 +23,11 @@ process.env.DB = DB
 
 process.env.CADUCIDAD_TOKEN = 60 * 60 * 24 * 30 // 1 MES
 
-// =======================
-// SEED DE AUTENTICACIÓN 
-// =======================
+
 
 process.env.SEED = process.env.SEED || 'este-es-el-seed-desarrollo'
+
+// =======================
+// GOOGLE CLIENT
+// =======================
+process.env.CLIENT_ID = process.env.CLIENT_ID || '317695412138-cuq1o1i640hsjco8m6t69jo3j10npfj1.apps.googleusercontent.com'
