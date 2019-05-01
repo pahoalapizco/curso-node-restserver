@@ -26,7 +26,7 @@ app.get('/usuario', verificaToken, (req, res) => {
                     err
                 });
             }
-            Usuario.count({ estado: true }, (err, total) => {
+            Usuario.countDocuments({ estado: true }, (err, total) => {
                 res.json({
                     ok: true,
                     total,
@@ -35,7 +35,25 @@ app.get('/usuario', verificaToken, (req, res) => {
             })
         })
   });
-  
+
+  // Busca un usuario en especifico
+app.get('/usuario/:id', verificaToken, (req, res) => {
+let _id = req.params.id;
+
+Usuario.findById({ _id }, (err, usuario) => {
+        if(err){
+            return res.status(400).json({
+                ok: false,
+                err
+            });
+        }
+        res.json({
+            ok: true,
+            usuario
+        })
+    })
+});
+
 app.post('/usuario', [verificaToken, verificaAdminRol], (req, res) => {
     let body = req.body;
     
