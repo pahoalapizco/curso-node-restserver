@@ -7,11 +7,11 @@ let categoriaSchema = new Schema({
   descripcion: {
     type: String,
     unique: true,
-    required: [true, 'El nombre es de captura obligatoria.']
+    required: [true, 'El nombre de la categoria es de captura obligatoria.']
   },
-  idUsuario: {
-    type: String,
-    required: [true, 'El usuario es requierido.']
+  usuario: { 
+    type: Schema.Types.ObjectId, 
+    ref: 'Usuario' 
   }
 })
 

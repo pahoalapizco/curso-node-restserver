@@ -6,7 +6,10 @@ const app = express()
 
 // Obtener todas las categorias existentes en BD
 app.get('/categoria', verificaToken, (req, res) =>{
-  Categoria.find( (err, categoriasBD) => {
+  Categoria.find({})
+  .sort('descripcion')
+  .populate('usuario', 'nombre email')
+  .exec((err, categoriasBD) => {
     if(err){
       return res.status(500).json({
         ok: false,
@@ -50,10 +53,10 @@ app.get('/categoria/:id', verificaToken, (req, res) => {
 // Registrar categorias
 app.post('/categoria', verificaToken, (req, res)=>{
   let descripcion = req.body.descripcion
-  let idUsuario = req.usuario
+  let usuario = req.usuario
   let categoria = new Categoria({
     descripcion,
-    idUsuario
+    usuario
   })
   categoria.save((err, categoriaDB) => {
     if(err){
@@ -110,13 +113,13 @@ app.delete('/categoria/:id', [verificaToken, verificaAdminRol], (req, res) => {
       res.status(400).json({
         ok: false,
         err: {
-          message: 'Categoria no encontrada'
+          message: 'Categoria no encontrada.'
         }
       })
     }
     res.json({
       ok: true,
-      categoria: categoriaEliminada
+      message: 'Categoria eliminada correctamente.'
     })
   })
   
