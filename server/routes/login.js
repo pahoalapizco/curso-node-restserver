@@ -30,7 +30,7 @@ app.post('/login', (req, res) => {
         }
       })
     } 
-    let usuarioFiltrado =  _.pick( usuarioBD, ['nombre', 'email', 'img', 'role', 'estado'])
+    let usuarioFiltrado =  _.pick( usuarioBD, ['_id','nombre', 'email', 'img', 'role', 'estado'])
 
     let token = jwt.sign({ usuario: usuarioFiltrado }, 
         process.env.SEED, 

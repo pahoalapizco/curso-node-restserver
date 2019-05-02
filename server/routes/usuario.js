@@ -113,13 +113,13 @@ app.delete('/usuario/:id', [verificaToken, verificaAdminRol], (req, res) => {
             return res.status(400).json({
                 ok: false,
                 err: {
-                    message: 'Usuario no encontrado'
+                    message: 'Usuario no encontrado.'
                 }
             })
         }
         res.json({
             ok: true,
-            usuarioEliminado
+            message: 'Categoria eliminada correctamente.'
         })
     })
 });
